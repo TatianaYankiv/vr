@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <title>360</title>
+  </head>
+
+  <body>
+    <a-scene antialias="true">
+      <a-sky rotation="0 -130 0" class="left" stereo="eye:left"></a-sky>
+      <a-sky rotation="0 -130 0" class="right" stereo="eye:right"></a-sky>
+
+      <a-assets>
+        <img cursor="fuse: true; fuseTimeout: 500"
+             id="arrow-right"
+             src="./img/vr_app/arrow-right.png">
+      </a-assets>
+
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+    </a-scene>
+    <!--     <a-scene>
+      <a-sky src="./img/view_1.jpeg"
+             rotation="0 -130 0"></a-sky>
+
+      <a-assets>
+        <img cursor="fuse: true; fuseTimeout: 500"
+             id="arrow-right"
+             src="./img/arrow-right.png">
+      </a-assets>
+
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+
+      <a-image next-room
+               position="10 0.25 10"
+               rotation="0 0 90"
+               width="5"
+               height="5"
+               src="#arrow-right"></a-image>
+    </a-scene> -->
+  <script src="vr_main.bundle.js"></script></body>
+
+</html>
