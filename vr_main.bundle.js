@@ -412,11 +412,7 @@ const APARTMENT_1 = {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-window.addEventListener("deviceorientation", handleOrientation, true);
 
-function handleOrientation(e) {
-  console.log(e)
-}
 
 /***/ }),
 
@@ -438,7 +434,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const SKY_LEFT = document.querySelector('a-sky.left');
-const SKY_RIGHT = document.querySelector('a-sky.right');
+//const SKY_RIGHT = document.querySelector('a-sky.right');
 const SCENE = document.querySelector('a-scene');
 const NEXT_ROOM = 'next-room';
 
@@ -475,7 +471,7 @@ function buildApartment(app) {
 function setUpRoom(room) {
   document.querySelectorAll('[next-room]').forEach(el => el.remove());
   SKY_LEFT.setAttribute('src', room.url);
-  SKY_RIGHT.setAttribute('src', room.url);
+  //SKY_RIGHT.setAttribute('src', room.url);
 
   room.arrows.forEach(arrowConfig => {
     SCENE.appendChild(buildArrow(arrowConfig));
