@@ -319,12 +319,15 @@ module.exports = {
 /*!*********************************!*\
   !*** ./vr_app/assets-config.js ***!
   \*********************************/
-/*! exports provided: APARTMENT_1 */
+/*! exports provided: ROOM_1_2, APARTMENT_1, APARTMENT_2, APARTMENT_MAP */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ROOM_1_2", function() { return ROOM_1_2; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "APARTMENT_1", function() { return APARTMENT_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "APARTMENT_2", function() { return APARTMENT_2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "APARTMENT_MAP", function() { return APARTMENT_MAP; });
 const ROOM_1 = {
     name: 'room_1',
     url: './img/vr_app/my_room.jpg',
@@ -393,8 +396,21 @@ const ROOM_3 = {
   ]
 }
 
+const ROOM_1_2 = {
+  name: 'room_2',
+  url: './img/vr_app/Bathroom.jpg',
+}
+//оренда
 const APARTMENT_1 = {
   name: 'APARTMENT_1',
+  rooms: [
+    ROOM_1_2,
+  ]
+};
+
+// купівля
+const APARTMENT_2 = {
+  name: 'APARTMENT_2',
   rooms: [
     ROOM_3,
     ROOM_2,
@@ -402,6 +418,10 @@ const APARTMENT_1 = {
   ]
 };
 
+const APARTMENT_MAP = {
+  appt_1: APARTMENT_1,
+  appt_2: APARTMENT_2,
+}
 
 /***/ }),
 
@@ -420,11 +440,15 @@ const APARTMENT_1 = {
 /*!************************!*\
   !*** ./vr_app/main.js ***!
   \************************/
-/*! no exports provided */
+/*! exports provided: onArrowClick, buildApartment, setUpRoom, buildArrow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "onArrowClick", function() { return onArrowClick; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buildApartment", function() { return buildApartment; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUpRoom", function() { return setUpRoom; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buildArrow", function() { return buildArrow; });
 /* harmony import */ var _stereo_pair__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./stereo-pair */ "./vr_app/stereo-pair.js");
 /* harmony import */ var _stereo_pair__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_stereo_pair__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _device_move__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./device_move */ "./vr_app/device_move.js");
@@ -439,10 +463,9 @@ const SCENE = document.querySelector('a-scene');
 const NEXT_ROOM = 'next-room';
 
 
-
 AFRAME.registerComponent('next-room', {
   schema: {
-    next: {type: 'string'}
+    next: { type: 'string' }
   },
   init: function () {
     this.listener = onArrowClick.bind(this);
@@ -457,7 +480,7 @@ AFRAME.registerComponent('next-room', {
 function onArrowClick() {
   const { data } = this;
 
-  const nextRoom = _assets_config__WEBPACK_IMPORTED_MODULE_2__["APARTMENT_1"].rooms.find(({name}) => name === data.next);
+  const nextRoom = APARTMENT_1.rooms.find(({ name }) => name === data.next);
 
   setUpRoom(nextRoom);
 }
@@ -473,7 +496,7 @@ function setUpRoom(room) {
   SKY_LEFT.setAttribute('src', room.url);
   SKY_RIGHT.setAttribute('src', room.url);
 
-  room.arrows.forEach(arrowConfig => {
+  room.arrows && room.arrows.forEach(arrowConfig => {
     SCENE.appendChild(buildArrow(arrowConfig));
   })
 }
@@ -491,8 +514,17 @@ function buildArrow(config) {
   aImage.setAttribute(NEXT_ROOM, dataString);
   return aImage;
 }
+const SELECT_KEY = "VR_APP_APARTMENT";
+const selectedAppartment = _assets_config__WEBPACK_IMPORTED_MODULE_2__["APARTMENT_MAP"][window.SELECTED_APARTMENT];
 
-buildApartment(_assets_config__WEBPACK_IMPORTED_MODULE_2__["APARTMENT_1"]);
+const apartmentFromStorage = sessionStorage.getItem(SELECT_KEY);
+const apartmentToShow = apartmentFromStorage ? JSON.parse(apartmentFromStorage) : selectedAppartment;
+
+if (!apartmentFromStorage) {
+  sessionStorage.setItem(SELECT_KEY, JSON.stringify(selectedAppartment))
+}
+
+buildApartment(apartmentToShow);
 
 
 /***/ }),
